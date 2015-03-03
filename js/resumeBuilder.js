@@ -16,6 +16,7 @@ var work = {
       $(".work-entry:last").append(formatDisplay(HTMLworkDescription, this.jobs[job].description));
     }
   }
+};
 
 var projects = {
 	projects : [
@@ -23,18 +24,19 @@ var projects = {
     title : "Photo Release Gallery",
     dates : "October 2012 - July 2014",
     description : "Internal application to track photo releases for clients.",
-    images : []
+    images : ["images/197x148.gif", "images/197x148.gif"]
   }],
 	display : function() {
 		for (proj in this.projects) {
 			$('#projects').append(HTMLprojectStart);
-			var formattedTitle = HTMLprojectTitle.replace('%data%', this.projects[proj].title);
-			var formattedDates = HTMLprojectDates.replace('%data%', this.projects[proj].dates);
-			var formattedDescription = HTMLprojectDescription.replace('%data%', this.projects[proj].description);
 
-			$(".project-entry:last").append(formattedTitle);
-			$(".project-entry:last").append(formattedDates);
-			$(".project-entry:last").append(formattedDescription);
+			$(".project-entry:last").append(formatDisplay(HTMLprojectTitle, this.projects[proj].title));
+			$(".project-entry:last").append(formatDisplay(HTMLprojectDates, this.projects[proj].dates));
+			$(".project-entry:last").append(formatDisplay(HTMLprojectDescription, this.projects[proj].description));
+
+			for (image in this.projects[proj].images) {
+				$(".project-entry:last").append(formatDisplay(HTMLprojectImage, this.projects[proj].images[image]));
+			}
 		}
 	}
 };
@@ -53,15 +55,24 @@ var bio = {
   skills : ["Java", "Spring", "Tomcat", "Web Applications", "SQL"],
   biopic : "images/fry.jpg",
   display : function() {
-    $("#header").append(formatDisplay(HTMLheaderName, this.name)).append(formatDisplay(HTMLheaderRole, this.role));
-    $("#header").append(formatDisplay(HTMLmobile, this.contacts.mobile));
-    $("#header").append(formatDisplay(HTMLemail, this.contacts.email));
-    $("#header").append(formatDisplay(HTMLgithub, this.contacts.github));
-    $("#header").append(formatDisplay(HTMLtwitter, this.contacts.twitter));
-    $("#header").append(formatDisplay(HTMLlocation, this.contacts.location));
+  	
+
+    $("#header").prepend(formatDisplay(HTMLheaderRole, this.role)).prepend(formatDisplay(HTMLheaderName, this.name));
+    $("#topContacts").append(formatDisplay(HTMLmobile, this.contacts.mobile));
+    $("#topContacts").append(formatDisplay(HTMLemail, this.contacts.email));
+    $("#topContacts").append(formatDisplay(HTMLgithub, this.contacts.github));
+    $("#topContacts").append(formatDisplay(HTMLtwitter, this.contacts.twitter));
+    $("#topContacts").append(formatDisplay(HTMLlocation, this.contacts.location));
+    $("#header").append(formatDisplay(HTMLbioPic, this.biopic));
+    $("#header").append(formatDisplay(HTMLWelcomeMsg, this.welcomeMessage));
+    
+    $("#header").append(HTMLskillsStart)
+    for (skill in this.skills) {
+    	$("#skills").append(formatDisplay(HTMLskills, this.skills[skill]));
+    }
+
   }
 };
-
 
 var education = {
   schools : [{
@@ -72,8 +83,31 @@ var education = {
   	dates : "2003",
   	url : "http://www.wisc.edu"
   }],
-  onlineCourses : [],
-  display : function() {}
+  onlineCourses : [{
+  	title: "Front-End Web Developer Nanodegree",
+  	school: "Udacity",
+  	date: "2015",
+  	url: "http://www.udacity.com"
+  }],
+  display : function() {
+  	for (school in this.schools) {
+  		$("#education").append(HTMLschoolStart);
+  		$(".education-entry:last").append(formatDisplay(HTMLschoolName, this.schools[school].name));
+  		$(".education-entry:last").append(formatDisplay(HTMLschoolDegree, this.schools[school].degree));
+  		$(".education-entry:last").append(formatDisplay(HTMLschoolDates, this.schools[school].dates));
+  		$(".education-entry:last").append(formatDisplay(HTMLschoolLocation, this.schools[school].location));
+  		$(".education-entry:last").append(formatDisplay(HTMLschoolMajor, this.schools[school].majors));
+  	}
+
+  	$(".education-entry:last").append(HTMLonlineClasses);
+
+  	for (course in this.onlineCourses) {
+  		$(".education-entry:last").append(formatDisplay(HTMLonlineTitle, this.onlineCourses[course].title));
+  		$(".education-entry:last").append(formatDisplay(HTMLonlineSchool, this.onlineCourses[course].school));
+  		$(".education-entry:last").append(formatDisplay(HTMLonlineDates, this.onlineCourses[course].date));
+  		$(".education-entry:last").append(formatDisplay(HTMLonlineURL, this.onlineCourses[course].url));
+  	}
+  }
 };
 
 function formatDisplay(original, replacement) {
@@ -90,11 +124,10 @@ function inName(name) {
 
 bio.display();
 work.display();
+projects.display();
+education.display();
 
-if (bio.skills.length > 0) {
-	$('#header').append(HTMLskillsStart);
-	$('#skills').append(HTMLskills.replace('%data%', bio.skills));
-}
+$('#mapDiv').append(googleMap);
 
 $(document).click(function(loc) {
 	logClicks(loc.pageX, loc.pageY);
