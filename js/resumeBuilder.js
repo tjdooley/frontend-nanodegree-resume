@@ -10,13 +10,33 @@ var work = {
     for (job in this.jobs) {
       $("#workExperience").append(HTMLworkStart);
       var formattedEmployerTitle = formatDisplay(HTMLworkEmployer, this.jobs[job].employer) + formatDisplay(HTMLworkTitle, this.jobs[job].title);
-
       $(".work-entry:last").append(formattedEmployerTitle);
       $(".work-entry:last").append(formatDisplay(HTMLworkLocation, this.jobs[job].location));
       $(".work-entry:last").append(formatDisplay(HTMLworkDates, this.jobs[job].dates));
       $(".work-entry:last").append(formatDisplay(HTMLworkDescription, this.jobs[job].description));
     }
   }
+
+var projects = {
+	projects : [
+  {
+    title : "Photo Release Gallery",
+    dates : "October 2012 - July 2014",
+    description : "Internal application to track photo releases for clients.",
+    images : []
+  }],
+	display : function() {
+		for (proj in this.projects) {
+			$('#projects').append(HTMLprojectStart);
+			var formattedTitle = HTMLprojectTitle.replace('%data%', this.projects[proj].title);
+			var formattedDates = HTMLprojectDates.replace('%data%', this.projects[proj].dates);
+			var formattedDescription = HTMLprojectDescription.replace('%data%', this.projects[proj].description);
+
+			$(".project-entry:last").append(formattedTitle);
+			$(".project-entry:last").append(formattedDates);
+			$(".project-entry:last").append(formattedDescription);
+		}
+	}
 };
 
 var bio = {
@@ -42,16 +62,6 @@ var bio = {
   }
 };
 
-var projects = {
-  projects : [
-  {
-    title : "Photo Release Gallery",
-    dates : "October 2012 - July 2014",
-    description : "Internal application to track photo releases for clients.",
-    images : []
-  }],
-  display : function() {}
-};
 
 var education = {
   schools : [{
@@ -80,3 +90,13 @@ function inName(name) {
 
 bio.display();
 work.display();
+
+if (bio.skills.length > 0) {
+	$('#header').append(HTMLskillsStart);
+	$('#skills').append(HTMLskills.replace('%data%', bio.skills));
+}
+
+$(document).click(function(loc) {
+	logClicks(loc.pageX, loc.pageY);
+});
+
