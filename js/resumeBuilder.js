@@ -22,9 +22,14 @@ var projects = {
 	projects : [
   {
     title : "Photo Release Gallery",
-    dates : "October 2012 - July 2014",
-    description : "Internal application to track photo releases for clients.",
+    dates : "October 2012 - July 2013",
+    description : "Created internal application to track photo releases for clients.  Utilized Java, Stripes, Hibernate, SQL Server, and JSP pages.",
     images : ["images/197x148.gif", "images/197x148.gif"]
+  },
+  {
+  	title: : "Cybersale",
+  	dates : "July 2013 - November 2013",
+  	description : "Developed an internal Craigslist-like app for company use.  Utilized Java, Spring, MyBatis, SQL Server, and JSP pages."
   }],
 	display : function() {
 		for (proj in this.projects) {
@@ -52,17 +57,20 @@ var bio = {
     twitter: "@tjdooley",
     location : "Middleton, WI"
   },
-  skills : ["Java", "Spring", "Tomcat", "Web Applications", "SQL"],
+  skills : ["Java", "Spring", "Tomcat", "Web Applications", "SQL", "JSP", "Hibernate", "MyBatis"],
   biopic : "images/fry.jpg",
   display : function() {
   	
+  	var contactRow = formatDisplay(HTMLmobile, this.contacts.mobile) + 
+		formatDisplay(HTMLemail, this.contacts.email) + 
+		formatDisplay(HTMLgithub, this.contacts.github) + 
+		formatDisplay(HTMLtwitter, this.contacts.twitter) + 
+		formatDisplay(HTMLlocation, this.contacts.location);
 
     $("#header").prepend(formatDisplay(HTMLheaderRole, this.role)).prepend(formatDisplay(HTMLheaderName, this.name));
-    $("#topContacts").append(formatDisplay(HTMLmobile, this.contacts.mobile));
-    $("#topContacts").append(formatDisplay(HTMLemail, this.contacts.email));
-    $("#topContacts").append(formatDisplay(HTMLgithub, this.contacts.github));
-    $("#topContacts").append(formatDisplay(HTMLtwitter, this.contacts.twitter));
-    $("#topContacts").append(formatDisplay(HTMLlocation, this.contacts.location));
+    $("#topContacts").append(contactRow);
+    $("#footerContacts").append(contactRow);
+
     $("#header").append(formatDisplay(HTMLbioPic, this.biopic));
     $("#header").append(formatDisplay(HTMLWelcomeMsg, this.welcomeMessage));
     
