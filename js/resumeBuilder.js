@@ -27,9 +27,10 @@ var projects = {
     images : ["images/197x148.gif", "images/197x148.gif"]
   },
   {
-  	title: : "Cybersale",
+  	title : "Cybersale",
   	dates : "July 2013 - November 2013",
-  	description : "Developed an internal Craigslist-like app for company use.  Utilized Java, Spring, MyBatis, SQL Server, and JSP pages."
+  	description : "Developed an internal Craigslist-like app for company use.  Utilized Java, Spring, MyBatis, SQL Server, and JSP pages.",
+    images : ["images/197x148.gif"]
   }],
 	display : function() {
 		for (proj in this.projects) {
@@ -60,11 +61,11 @@ var bio = {
   skills : ["Java", "Spring", "Tomcat", "Web Applications", "SQL", "JSP", "Hibernate", "MyBatis"],
   biopic : "images/fry.jpg",
   display : function() {
-  	
-  	var contactRow = formatDisplay(HTMLmobile, this.contacts.mobile) + 
-		formatDisplay(HTMLemail, this.contacts.email) + 
-		formatDisplay(HTMLgithub, this.contacts.github) + 
-		formatDisplay(HTMLtwitter, this.contacts.twitter) + 
+
+  	var contactRow = formatDisplay(HTMLmobile, this.contacts.mobile) +
+		formatDisplay(HTMLemail, this.contacts.email) +
+		formatDisplay(HTMLgithub, this.contacts.github) +
+		formatDisplay(HTMLtwitter, this.contacts.twitter) +
 		formatDisplay(HTMLlocation, this.contacts.location);
 
     $("#header").prepend(formatDisplay(HTMLheaderRole, this.role)).prepend(formatDisplay(HTMLheaderName, this.name));
@@ -73,7 +74,7 @@ var bio = {
 
     $("#header").append(formatDisplay(HTMLbioPic, this.biopic));
     $("#header").append(formatDisplay(HTMLWelcomeMsg, this.welcomeMessage));
-    
+
     $("#header").append(HTMLskillsStart)
     for (skill in this.skills) {
     	$("#skills").append(formatDisplay(HTMLskills, this.skills[skill]));
@@ -118,10 +119,12 @@ var education = {
   }
 };
 
+//Utility method for string replacement
 function formatDisplay(original, replacement) {
   return original.replace('%data%', replacement);
 }
 
+//internationalize name
 function inName(name) {
   name = name.trim().split(" ");
   name[1] = name[1].toUpperCase();
@@ -136,8 +139,3 @@ projects.display();
 education.display();
 
 $('#mapDiv').append(googleMap);
-
-$(document).click(function(loc) {
-	logClicks(loc.pageX, loc.pageY);
-});
-
